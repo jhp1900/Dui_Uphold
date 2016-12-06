@@ -39,4 +39,15 @@ void MainWnd::OnClickBtn(TNotifyUI &msg, bool &handled)
 		m_pm.SetDPI(168);
 	else if (name == _T("DPI_200"))
 		m_pm.SetDPI(192);
+	else if (name == _T("menubtn"))
+		CreatMenu();
+}
+
+void MainWnd::CreatMenu()
+{
+	POINT point;
+	GetCursorPos(&point);
+	point.x += 5;
+	point.x -= 5;
+	pMenu_ = CMenuWnd::CreateMenu(NULL, _T("menutest.xml"), point, &m_pm, &menu_check_info_);
 }

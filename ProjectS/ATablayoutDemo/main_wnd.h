@@ -19,5 +19,10 @@ public:
 private:
 	void OnClickBtn(TNotifyUI &msg, bool &handled);
 	virtual LRESULT OnClose(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled);
+
+private:
+	void CreatMenu();
+	std::map<CDuiString, bool> menu_check_info_;
+	CMenuWnd * pMenu_;
 };
 

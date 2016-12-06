@@ -6,6 +6,7 @@
     <HorizontalLayout height="50" bkcolor="#aa123456" inset="2,2,2,2">
       <Label text="视频广告过滤大师" width="120" height="18" textcolor="#00FFFFFF" disabledtextcolor="#FFA7A6AA" font="0" />
       <Control />
+      <Button name="menubtn" width="27" height="22" normalimage="file='skin_menu.png' source='0,0,26,22'" hotimage="file='skin_menu.png' source='27,0,53,22'" pushedimage="file='skin_menu.png' source='54,0,80,22'"/>
       <Button name="minbtn" tooltip="最小化" width="30" height="20" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;sys_min.png&apos; source=&apos;0,0,30,20&apos; corner=&apos;4,4,4,4&apos;" hotimage="file=&apos;sys_min.png&apos; source=&apos;30,0,60,20&apos; corner=&apos;4,4,4,4&apos;" pushedimage="file=&apos;sys_min.png&apos; source=&apos;60,0,90,20&apos; corner=&apos;4,4,4,4&apos;" />
       <Button name="closebtn" tooltip="关闭" width="35" height="20" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;sys_close.png&apos; source=&apos;0,0,35,20&apos; corner=&apos;4,4,4,4&apos;" hotimage="file=&apos;sys_close.png&apos; source=&apos;35,0,70,20&apos; corner=&apos;4,4,4,4&apos;" pushedimage="file=&apos;sys_close.png&apos; source=&apos;70,0,105,20&apos; corner=&apos;4,4,4,4&apos;" />
     </HorizontalLayout>
