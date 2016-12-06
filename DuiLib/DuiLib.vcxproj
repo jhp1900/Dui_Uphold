@@ -1117,6 +1117,15 @@
     <ClInclude Include="Control\UITreeView.h" />
     <ClInclude Include="Control\UIWebBrowser.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Help\directui license.txt" />
+    <Text Include="Help\duilib license.txt" />
+    <Text Include="Help\感谢.txt" />
+    <Text Include="Help\版权说明.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Help\属性列表.xml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

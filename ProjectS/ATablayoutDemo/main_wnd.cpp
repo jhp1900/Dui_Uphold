@@ -24,8 +24,19 @@ LRESULT MainWnd::OnClose(UINT, WPARAM, LPARAM, BOOL & bHandled)
 
 void MainWnd::OnClickBtn(TNotifyUI &msg, bool &handled)
 {
-	if (msg.pSender->GetName() == _T("closebtn"))
+	CDuiString name = msg.pSender->GetName();
+	if (name == _T("closebtn"))
 		Close();
-	else if (msg.pSender->GetName() == _T("BtnOneClick"))
+	else if (name == _T("BtnOneClick"))
 		static_cast<CAnimationTabLayoutUI*>(m_pm.FindControl(_T("stepTabLayout")))->SelectItem(1);
+	else if (name == _T("DPI_100"))
+		m_pm.SetDPI(96);
+	else if (name == _T("DPI_125"))
+		m_pm.SetDPI(120);
+	else if (name == _T("DPI_150"))
+		m_pm.SetDPI(144);
+	else if (name == _T("DPI_175"))
+		m_pm.SetDPI(168);
+	else if (name == _T("DPI_200"))
+		m_pm.SetDPI(192);
 }

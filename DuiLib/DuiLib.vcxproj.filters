@@ -37,6 +37,9 @@
       <UniqueIdentifier>{d2d4b88c-de59-4ad8-882a-9203538020cd}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
+    <Filter Include="Help">
+      <UniqueIdentifier>{65b0b327-3897-4926-8be9-0e85bcad0ff4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StdAfx.cpp">
@@ -377,5 +380,24 @@
     <ClInclude Include="Utils\DPI.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Help\directui license.txt">
+      <Filter>Help</Filter>
+    </Text>
+    <Text Include="Help\duilib license.txt">
+      <Filter>Help</Filter>
+    </Text>
+    <Text Include="Help\版权说明.txt">
+      <Filter>Help</Filter>
+    </Text>
+    <Text Include="Help\感谢.txt">
+      <Filter>Help</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Help\属性列表.xml">
+      <Filter>Help</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
