@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window size="250,150" roundcorner="10,10" caption="0,0,0,30">
+  <Font name="微软雅黑" size="12" bold="false" italic="false" default="true" />
+  <VerticalLayout bkcolor="#ffffffff" inset="1,1,1,15">
+    <HorizontalLayout height="30">
+      <Control />
+      <Button name="close_ptz" width="30" bkimage="res/close_panel_1.png" hotimage="res/close_panel_2.png" />
+    </HorizontalLayout>
+    <Control />
+	<HorizontalLayout height="25" inset="30,0,30,0">
+		<Label width="35" text="IP:" />
+		<Edit name="ip_edit" align="center" bkcolor="#ff888888" />
+	</HorizontalLayout>
+	<Control height="5" />
+	<HorizontalLayout height="25" inset="30,0,30,0">
+		<Label width="35" text="Port:" />
+		<Edit name="port_edit" align="center" bkcolor="#ff888888" />
+	</HorizontalLayout>
+	<Control height="15" />
+	<HorizontalLayout height="25" inset="30,0,30,0">
+		<Button name="ok" width="60" text="确定" bkcolor="#ff555555" />
+		<Control />
+		<Button name="cancel" width="60" text="取消" bkcolor="#ff555555" />
+	</HorizontalLayout>
+  </VerticalLayout>
+</Window>
