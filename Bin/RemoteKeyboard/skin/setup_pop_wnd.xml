@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window roundcorner="5,5" size="100,233">
+  <Font name="微软雅黑" size="18" bold="false" italic="false" default="true" />
+  <Default name="CheckBox">normalimage="file='res\checkbox.png' source='0,0,13,13' dest='10,8,23,21'" hotimage="file='res\checkbox.png' source='0,13,13,26' dest='10,8,23,21'" selectedimage="file='res\checkbox.png' source='13,0,26,13' dest='10,8,23,21'" selectedhotimage="file='res\checkbox.png' source='13,13,26,26' dest='10,8,23,21'" selectedtextcolor="#ff0000aa"</Default>
+  <Default name="Button">height="35" align="left" textcolor="#ff000000" textpadding="10,0,0,0" borderround="5,5" bkcolor="#ffe0e0e0" hotbkcolor="#ff5ccc5c" hottextcolor="#ff0000aa"</Default>
+  <VerticalLayout bkcolor="#ffffffff" inset="5,5,5,5" childpadding="1">
+    <Button name="ptz" text="#云台" />
+    <Button name="control_panel" text="#控制台" />
+	<Button name="sync_lession" text="#同步排课"  />
+    <Button name="link_serve" text="连接主机" />
+	<Button name="back_streams" text="背景流" />
+    <Button name="quit_full" text="#退出全屏" visible="false" />
+    <Control height="2" />
+    <Control height="1" bkcolor="#ff666666" />
+    <Control height="2" />
+    <Button name="closebtn" text="#退出" />
+  </VerticalLayout>
+</Window>

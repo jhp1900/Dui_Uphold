@@ -19,7 +19,7 @@ void InitResource()
 	{
 		case UILIB_FILE:
 		{
-			strResourcePath += _T("skin\\RemoteKeyboard\\");
+			strResourcePath += _T("skin\\");
 			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
 			// 加载资源管理器
 			CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
@@ -27,7 +27,7 @@ void InitResource()
 		}
 		case UILIB_RESOURCE:
 		{
-			strResourcePath += _T("skin\\RemoteKeyboard\\");
+			strResourcePath += _T("skin\\");
 			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
 			// 加载资源管理器
 			CResourceManager::GetInstance()->LoadResource(_T("IDR_RES"), _T("xml"));
@@ -35,16 +35,15 @@ void InitResource()
 		}
 		case UILIB_ZIP:
 		{
-			strResourcePath += _T("skin\\");
 			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
-			CPaintManagerUI::SetResourceZip(_T("RemoteKeyboard.zip"), true);
+			CPaintManagerUI::SetResourceZip(_T("skin.zip"), true);
 			// 加载资源管理器
 			CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
 			break;
 		}
 		case UILIB_ZIPRESOURCE:
 		{
-			strResourcePath += _T("skin\\RemoteKeyboard\\");
+			strResourcePath += _T("skin\\");
 			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
 
 			HRSRC hResource = ::FindResource(CPaintManagerUI::GetResourceDll(), _T("IDR_ZIPRES"), _T("ZIPRES"));

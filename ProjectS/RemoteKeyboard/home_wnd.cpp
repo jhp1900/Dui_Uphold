@@ -30,11 +30,11 @@ void BackWnd::RunBackVideo()
 	//sys_cfg->GetIpInfo(BackStreamsIP, ip, port);
 	//sys_cfg->WideToMulti(str_url + ip + _T("/") + port, url);
 
-	vlc_tool_.reset(new VLCTool);
-	if (!vlc_tool_->Initial())
-		return;
-	vlc_tool_->SetMediaSource("rtsp://192.0.0.123/11");
-	vlc_tool_->SetPlayerWindows(m_hWnd);
-	vlc_tool_->StartPlay();
+	//vlc_tool_.reset(new VLCTool);
+	//if (!vlc_tool_->Initial())
+	//	return;
+	//vlc_tool_->SetMediaSource("rtsp://192.0.0.123/11");
+	//vlc_tool_->SetPlayerWindows(m_hWnd);
+	//vlc_tool_->StartPlay();
 }
 

@@ -71,7 +71,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Bin\</OutDir>
+    <OutDir>$(SolutionDir)Bin\$(ProjectName)</OutDir>
     <IntDir>$(SolutionDir)Temp\$(ProjectName)\$(Configuration)\</IntDir>
     <IncludePath>..\..\third_party\libvlc_include;..\..\third_party\libvlc_include\vlc\plugins;..\..\third_party\boost\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\third_party\libvlc_lib;..\..\third_party\boost\lib;$(LibraryPath)</LibraryPath>

@@ -16,10 +16,12 @@ public:
 		//DUIMSG_HANDLER(WM_RBUTTONDOWN, OnCursorRButtonDown)
 		//DUIMSG_HANDLER(WM_RBUTTONUP, OnCursorRButtonUp)
 		//DUIMSG_HANDLER(WM_MOUSEMOVE, OnCursorMove)
+		DUIMSG_HANDLER(kAM_ControlInit, OnInitCtrl)
 		DUIMSG_HANDLER(kAM_Update_Status, OnUpdateStatus)
 	END_DUIMSG_MAP()
 
 	BEGIN_DUINOTIFY_MAP(RKCtrlWnd)
+		DUINOTIFY_HANDLER(_T("setupbtn"), DUI_MSGTYPE_CLICK, OnClickSetupBtn)
 		DUINOTIFY_TYPE_HANDLER(DUI_MSGTYPE_CLICK, OnClick)
 	END_DUINOTIFY_MAP()
 
@@ -27,8 +29,10 @@ public:
 	void Init();
 
 private:
+	LRESULT OnInitCtrl(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandle);
 	LRESULT OnUpdateStatus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandle);
 
+	void OnClickSetupBtn(TNotifyUI& msg, bool& handled);
 	void OnClick(TNotifyUI& msg, bool& handled);
 
 private:

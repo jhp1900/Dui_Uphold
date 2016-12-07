@@ -32,10 +32,16 @@ void RKCtrlWnd::Init()
 	CenterWindow();
 	ShowWindow(m_hWnd, SW_SHOW);
 	
-	ResetKeyPos();
-	SendMessage(kAM_Update_Status, WPARAM(false), LPARAM(0));
 	BindServerIP();
-	m_check_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&RKCtrlWnd::OnCheck, this)));
+	SendMessage(kAM_Update_Status, WPARAM(false), LPARAM(0));
+	PostMessage(kAM_ControlInit, 0, 0);
+	//m_check_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&RKCtrlWnd::OnCheck, this)));
+}
+
+LRESULT RKCtrlWnd::OnInitCtrl(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandle)
+{
+	ResetKeyPos();
+	return LRESULT();
 }
 
 LRESULT RKCtrlWnd::OnUpdateStatus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandle)
@@ -73,6 +79,11 @@ LRESULT RKCtrlWnd::OnUpdateStatus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL 
 	}
 
 	return LRESULT();
+}
+
+void RKCtrlWnd::OnClickSetupBtn(TNotifyUI & msg, bool & handled)
+{
+	ResetKeyPos();
 }
 
 void RKCtrlWnd::OnClick(TNotifyUI & msg, bool & handled)
