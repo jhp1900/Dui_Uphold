@@ -16,7 +16,15 @@ RKCtrlWnd::RKCtrlWnd(HWND pa_hwnd)
 	: pa_hwnd_(pa_hwnd)
 	, binding_hwnd_(nullptr)
 	, binding_str_(0)
+	, current_channel_(-1)
+	, rbtn_down_(false)
+	, old_point_({ 0, 0 })
 {
+	for (int i = 4; i < 12; ++i) {
+		TCHAR name[32];
+		_stprintf_s(name, sizeof(name) / sizeof(TCHAR), _T("rkbc_%02d"), i);
+		ch_names_.push_back(name);
+	}
 	InterlockedExchange(&check_running_, TRUE);	// 原子操作，给 check_running_ 赋值为 TRUE
 }
 
@@ -34,13 +42,17 @@ void RKCtrlWnd::Init()
 	
 	BindServerIP();
 	SendMessage(kAM_Update_Status, WPARAM(false), LPARAM(0));
-	PostMessage(kAM_ControlInit, 0, 0);
-	//m_check_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&RKCtrlWnd::OnCheck, this)));
+	check_thread_ = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&RKCtrlWnd::OnCheck, this)));
+	ctrl_initpos_thread_ = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&RKCtrlWnd::OnInitCtrlPos, this)));
+}
+
+void RKCtrlWnd::InitWindow()
+{
+	m_pm.SendNotify(m_pm.FindControl(_T("setupbtn")), DUI_MSGTYPE_CLICK);
 }
 
 LRESULT RKCtrlWnd::OnInitCtrl(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandle)
 {
-	ResetKeyPos();
 	return LRESULT();
 }
 
@@ -81,9 +93,51 @@ LRESULT RKCtrlWnd::OnUpdateStatus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL 
 	return LRESULT();
 }
 
+LRESULT RKCtrlWnd::OnCursorRButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
+{
+	bHandled = false;
+	POINT point;
+	point.x = GET_X_LPARAM(lParam);
+	point.y = GET_Y_LPARAM(lParam);
+	for (int i = 0; i < 8; ++i) {
+		if (InBtnRect(ch_names_[i], point)) {
+			rbtn_down_ = true;
+			current_channel_ = i;
+			old_point_ = point;
+			return 0;
+		}
+	}
+	return LRESULT();
+}
+
+LRESULT RKCtrlWnd::OnCursorRButtonUp(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
+{
+	bHandled = false;
+	current_channel_ = -1;
+	rbtn_down_ = false;
+	return LRESULT();
+}
+
+LRESULT RKCtrlWnd::OnCursorMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
+{
+	if (rbtn_down_) {
+		CControlUI *ctrl = m_pm.FindControl(ch_names_[current_channel_]);
+		RECT rect = ctrl->GetPos();
+		int add_x = GET_X_LPARAM(lParam) - old_point_.x;
+		int add_y = GET_Y_LPARAM(lParam) - old_point_.y;
+		old_point_.x = GET_X_LPARAM(lParam);
+		old_point_.y = GET_Y_LPARAM(lParam);
+		rect.left += add_x;
+		rect.right += add_x;
+		rect.top += add_y;
+		rect.bottom += add_y;
+		ctrl->SetPos(rect);
+	}
+	return LRESULT();
+}
+
 void RKCtrlWnd::OnClickSetupBtn(TNotifyUI & msg, bool & handled)
 {
-	ResetKeyPos();
 }
 
 void RKCtrlWnd::OnClick(TNotifyUI & msg, bool & handled)
@@ -158,6 +212,11 @@ bool RKCtrlWnd::BindServerIP()
 	return true;
 }
 
+void RKCtrlWnd::OnInitCtrlPos()
+{
+	ResetKeyPos();
+}
+
 void RKCtrlWnd::ResetKeyPos()
 {
 	RECT pos[8] = {};
@@ -179,11 +238,15 @@ void RKCtrlWnd::ResetKeyPos()
 		pos[i].bottom = pos[i].top + 50;
 	}
 
-	TCHAR name[32];
 	CControlUI *ctrl;
 	for (int i = 0; i < 8; ++i) {
-		_stprintf_s(name, sizeof(name) / sizeof(TCHAR), _T("rkbc_%02d"), i + 4);
-		ctrl = m_pm.FindControl(name);
+		ctrl = m_pm.FindControl(ch_names_[i]);
 		ctrl->SetPos(pos[i]);
 	}
+}
+
+bool RKCtrlWnd::InBtnRect(LPCTSTR btn_name, POINT point)
+{
+	const RECT rect = m_pm.FindControl(btn_name)->GetPos();
+	return PtInRect(&rect, point);
 }

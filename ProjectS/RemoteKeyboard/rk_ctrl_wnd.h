@@ -13,11 +13,11 @@ public:
 	DECLARE_DUIWND_INFO(_T("RKCtrlWnd"), CS_DBLCLKS, _T("rk_ctrl_wnd.xml"))
 
 	BEGIN_DUIMSG_MAP(RKCtrlWnd)
-		//DUIMSG_HANDLER(WM_RBUTTONDOWN, OnCursorRButtonDown)
-		//DUIMSG_HANDLER(WM_RBUTTONUP, OnCursorRButtonUp)
-		//DUIMSG_HANDLER(WM_MOUSEMOVE, OnCursorMove)
 		DUIMSG_HANDLER(kAM_ControlInit, OnInitCtrl)
 		DUIMSG_HANDLER(kAM_Update_Status, OnUpdateStatus)
+		DUIMSG_HANDLER(WM_RBUTTONDOWN, OnCursorRButtonDown)
+		DUIMSG_HANDLER(WM_RBUTTONUP, OnCursorRButtonUp)
+		DUIMSG_HANDLER(WM_MOUSEMOVE, OnCursorMove)
 	END_DUIMSG_MAP()
 
 	BEGIN_DUINOTIFY_MAP(RKCtrlWnd)
@@ -29,8 +29,14 @@ public:
 	void Init();
 
 private:
+	virtual void InitWindow() override;
+
+private:
 	LRESULT OnInitCtrl(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandle);
 	LRESULT OnUpdateStatus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandle);
+	LRESULT OnCursorRButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
+	LRESULT OnCursorRButtonUp(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
+	LRESULT OnCursorMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
 
 	void OnClickSetupBtn(TNotifyUI& msg, bool& handled);
 	void OnClick(TNotifyUI& msg, bool& handled);
@@ -39,14 +45,22 @@ private:
 	bool EnableControl(LPCTSTR name, bool enable);
 	void OnCheck();
 	bool BindServerIP();
+	void OnInitCtrlPos();
 	void ResetKeyPos();
+	bool InBtnRect(LPCTSTR btn_name, POINT point);
 
 private:
 	HWND pa_hwnd_;
 
-	boost::shared_ptr<boost::thread> m_check_thread;
+	vector<CDuiString> ch_names_;
+	boost::shared_ptr<boost::thread> check_thread_;
+	boost::shared_ptr<boost::thread> ctrl_initpos_thread_;
 	RPC_BINDING_HANDLE binding_hwnd_;
 	RPC_WSTR binding_str_;
 	volatile LONG check_running_;
+
+	UINT current_channel_;
+	bool rbtn_down_;
+	POINT old_point_;
 };
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 //#include "native_control_ui.h"
-//#include "vlc_tool.h"
+#include "vlc_tool.h"
 #include <memory>
 #include "rk_ctrl_wnd.h"
 
@@ -27,7 +27,7 @@ private:
 	void RunBackVideo();
 
 private:
-	//std::shared_ptr<VLCTool> vlc_tool_;
+	std::shared_ptr<VLCTool> vlc_tool_;
 	std::shared_ptr<RKCtrlWnd> rk_ctrl_wnd_;
 };
 
