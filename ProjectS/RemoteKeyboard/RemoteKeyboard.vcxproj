@@ -73,7 +73,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Bin\$(ProjectName)</OutDir>
     <IntDir>$(SolutionDir)Temp\$(ProjectName)\$(Configuration)\</IntDir>
-    <IncludePath>..\..\third_party\libvlc_include;..\..\third_party\libvlc_include\vlc\plugins;..\..\third_party\boost\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\third_party\libvlc_include;..\..\third_party\libvlc_include\vlc\plugins;..\..\third_party\boost\include;..\..\third_party\pugixml;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\third_party\libvlc_lib;..\..\third_party\boost\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -166,16 +166,20 @@
     <ClInclude Include="debug_tools.h" />
     <ClInclude Include="home_wnd.h" />
     <ClInclude Include="msg_head.h" />
+    <ClInclude Include="res_singleton.h" />
     <ClInclude Include="rk_ctrl_wnd.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="sys_cfg.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="vlc_tool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="home_wnd.cpp" />
     <ClCompile Include="inlet_function.cpp" />
+    <ClCompile Include="res_singleton.cpp" />
     <ClCompile Include="rk_ctrl_wnd.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="sys_cfg.cpp" />
     <ClCompile Include="vlc_tool.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

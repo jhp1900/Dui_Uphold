@@ -1,6 +1,7 @@
 #include "rk_ctrl_wnd.h"
 #include "RemoteKeyBoardCtrl/RemoteKeyBoardCtrl_h.h"
 #include "RemoteKeyBoardCtrl/RemoteKeyBoardCtrl_c.c"
+#include "res_singleton.h"
 
 #pragma comment(lib,"Rpcrt4.lib")
 
@@ -111,6 +112,11 @@ LRESULT RKCtrlWnd::OnCursorRButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, 
 LRESULT RKCtrlWnd::OnCursorRButtonUp(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
 {
 	bHandled = false;
+	if (-1 == current_channel_)
+		return 0;
+
+	ResSingleton::GetInstance()->GetSysCfg()->SetChBtnPos(
+		ch_names_[current_channel_], m_pm.FindControl(ch_names_[current_channel_])->GetPos());
 	current_channel_ = -1;
 	rbtn_down_ = false;
 	return LRESULT();
@@ -145,15 +151,18 @@ LRESULT RKCtrlWnd::OnPushpinLButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam,
 	POINT point;
 	point.x = GET_X_LPARAM(lParam);
 	point.y = GET_Y_LPARAM(lParam);
-	if (InBtnRect(_T("pushpin_control"), point)) {
+
+	auto lbtndow = [&](LPCTSTR pushpin) {
 		lbtn_down_ = true;
-		current_pushpin_ = _T("pushpin_control");
+		current_pushpin_ = pushpin;
 		old_point_ = point;
-	} else if (InBtnRect(_T("pushpin_sysn"), point)) {
-		lbtn_down_ = true;
-		current_pushpin_ = _T("pushpin_sysn");
-		old_point_ = point;
-	}
+	};
+
+	if (InBtnRect(_T("pushpin_control"), point)) 
+		lbtndow(_T("pushpin_control"));
+	else if (InBtnRect(_T("pushpin_sysn"), point)) 
+		lbtndow(_T("pushpin_sysn"));
+
 	return LRESULT();
 }
 
@@ -230,12 +239,12 @@ void RKCtrlWnd::OnCheck()
 
 bool RKCtrlWnd::BindServerIP()
 {
-	CDuiString ip = _T("127.0.0.1"), port = _T("12321");
-	//ResSingleton::GetInstance()->GetSysCfg()->GetIpInfo(ServerIP, ip, port);
-	//if (ip.GetLength() < 7 || port.GetLength() < 1) {
-	//	::MessageBox(m_hWnd, _T("Address is empty or incorrectly set!"), _T("OnInit"), MB_OK);
-	//	return false;
-	//}
+	CDuiString ip, port;
+	ResSingleton::GetInstance()->GetSysCfg()->GetIpInfo(ServerIP, ip, port);
+	if (ip.GetLength() < 7 || port.GetLength() < 1) {
+		::MessageBox(m_hWnd, _T("Address is empty or incorrectly set!"), _T("OnInit"), MB_OK);
+		return false;
+	}
 
 	/*  °ó¶¨²Ù×÷  */
 	if (RpcStringBindingCompose(NULL, (RPC_WSTR)_T("ncacn_ip_tcp"), (RPC_WSTR)(LPTSTR)(LPCTSTR)(ip),
@@ -253,29 +262,13 @@ bool RKCtrlWnd::BindServerIP()
 void RKCtrlWnd::ResetKeyPos()
 {
 	Sleep(10);
-	RECT pos[8] = {};
-	RECT win_rect = {};
-	GetWindowRect(m_hWnd, &win_rect);
-	UINT width_pitch = (win_rect.right - win_rect.left - 70) / 5;
-	UINT height_pitch = (win_rect.bottom - win_rect.top - 50 - 27) / 3;
-
-	for (int i = 0; i < 4; ++i) {
-		pos[i].left = (i + 1) * width_pitch;
-		pos[i].right = pos[i].left + 70;
-		pos[i].top = height_pitch;
-		pos[i].bottom = pos[i].top + 50;
-	}
-	for (int i = 4; i < 8; ++i) {
-		pos[i].left = (i - 3) * width_pitch;
-		pos[i].right = pos[i].left + 70;
-		pos[i].top = height_pitch * 2;
-		pos[i].bottom = pos[i].top + 50;
-	}
-
+	RECT pos = { 0 };
 	CControlUI *ctrl;
+	SysCfg *sys_cfg = ResSingleton::GetInstance()->GetSysCfg();
 	for (int i = 0; i < 8; ++i) {
+		pos = sys_cfg->GetChBtnPos(ch_names_[i], i, m_hWnd);
 		ctrl = m_pm.FindControl(ch_names_[i]);
-		ctrl->SetPos(pos[i], true);
+		ctrl->SetPos(pos, true);
 	}
 }
 

@@ -7,14 +7,14 @@
       <Control />
       <Button name="setupbtn" width="70" bkimage="res/setup_1.png" hotimage="res/setup_2.png" />
     </HorizontalLayout>
-    <Button name="rkbc_04" userdata="20001" text="CH1" font="1" textcolor="#ff333333" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#55555555" hotbkcolor="#" float="true" pos="200,200,250,250" />
-    <Button name="rkbc_05" userdata="20002" text="CH2" font="1" textcolor="#ff333333" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#55555555" hotbkcolor="#" float="true" pos="300,200,350,250" />
-    <Button name="rkbc_06" userdata="20003" text="CH3" font="1" textcolor="#ff333333" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#55555555" hotbkcolor="#" float="true" pos="400,200,450,250" />
-    <Button name="rkbc_07" userdata="20004" text="CH4" font="1" textcolor="#ff333333" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#55555555" hotbkcolor="#" float="true" pos="500,200,550,250" />
-    <Button name="rkbc_08" userdata="20005" text="CH5" font="1" textcolor="#ff333333" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#55555555" hotbkcolor="#" float="true" pos="200,400,250,450" />
-    <Button name="rkbc_09" userdata="20006" text="CH6" font="1" textcolor="#ff333333" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#55555555" hotbkcolor="#" float="true" pos="300,400,350,450" />
-    <Button name="rkbc_10" userdata="20007" text="CH7" font="1" textcolor="#ff333333" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#55555555" hotbkcolor="#" float="true" pos="400,400,450,450" />
-    <Button name="rkbc_11" userdata="20008" text="CH8" font="1" textcolor="#ff333333" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#55555555" hotbkcolor="#" float="true" pos="500,400,550,450" />
+    <Button name="rkbc_04" userdata="20001" text="CH1" font="1" textcolor="#ff333333" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#55555555" hotbkcolor="#" float="true" />
+    <Button name="rkbc_05" userdata="20002" text="CH2" font="1" textcolor="#ff333333" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#55555555" hotbkcolor="#" float="true" />
+    <Button name="rkbc_06" userdata="20003" text="CH3" font="1" textcolor="#ff333333" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#55555555" hotbkcolor="#" float="true" />
+    <Button name="rkbc_07" userdata="20004" text="CH4" font="1" textcolor="#ff333333" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#55555555" hotbkcolor="#" float="true" />
+    <Button name="rkbc_08" userdata="20005" text="CH5" font="1" textcolor="#ff333333" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#55555555" hotbkcolor="#" float="true" />
+    <Button name="rkbc_09" userdata="20006" text="CH6" font="1" textcolor="#ff333333" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#55555555" hotbkcolor="#" float="true" />
+    <Button name="rkbc_10" userdata="20007" text="CH7" font="1" textcolor="#ff333333" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#55555555" hotbkcolor="#" float="true" />
+    <Button name="rkbc_11" userdata="20008" text="CH8" font="1" textcolor="#ff333333" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#55555555" hotbkcolor="#" float="true" />
     <VerticalLayout name="control_panel" width="570" height="100" float="true" pos="675,100,1245,200" inset="0,20,20,0" visible="false">
       <HorizontalLayout bkcolor="#55555555" borderround="4,4" inset="20,20,20,20">
         <Button name="rkbc_01" width="90" userdata="10001" text="开始录制" font="1" disabledtextcolor="#55ff0000" borderround="4,4" bkcolor="#ffbbbbbb" />
