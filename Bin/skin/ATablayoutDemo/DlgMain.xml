@@ -2,7 +2,7 @@
 <Window size="544,394" caption="0,0,0,50" roundcorner="5,5" bktrans="true">
   <Font name="微软雅黑" size="14" bold="false" italic="false" />
   <Font name="微软雅黑" size="12" bold="false" italic="false" />
-  <VerticalLayout bkimage="bg_.png">
+  <VerticalLayout bkimage="bg.png">
     <HorizontalLayout height="50" bkcolor="#aa123456" inset="2,2,2,2">
       <Label text="视频广告过滤大师" width="120" height="18" textcolor="#00FFFFFF" disabledtextcolor="#FFA7A6AA" font="0" />
       <Control />

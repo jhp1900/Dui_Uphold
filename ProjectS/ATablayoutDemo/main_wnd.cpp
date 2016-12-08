@@ -11,6 +11,7 @@ MainWnd::~MainWnd()
 void MainWnd::InitWindow()
 {
 	//atablayout_ = static_cast<CAnimationTabLayoutUI*>(m_pm.FindControl(_T("BtnOneClick")));
+	m_pm.FindControl(_T("DPI_100"))->SetPos({ 0,0,100,100 }, false);
 }
 
 LRESULT MainWnd::OnClose(UINT, WPARAM, LPARAM, BOOL & bHandled)

@@ -1,6 +1,5 @@
 #pragma once
 #include "stdafx.h"
-//#include "native_control_ui.h"
 #include "vlc_tool.h"
 #include <memory>
 #include "rk_ctrl_wnd.h"

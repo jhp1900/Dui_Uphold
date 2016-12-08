@@ -18,7 +18,9 @@ RKCtrlWnd::RKCtrlWnd(HWND pa_hwnd)
 	, binding_str_(0)
 	, current_channel_(-1)
 	, rbtn_down_(false)
+	, lbtn_down_(false)
 	, old_point_({ 0, 0 })
+	, current_pushpin_(_T(""))
 {
 	for (int i = 4; i < 12; ++i) {
 		TCHAR name[32];
@@ -43,17 +45,13 @@ void RKCtrlWnd::Init()
 	BindServerIP();
 	SendMessage(kAM_Update_Status, WPARAM(false), LPARAM(0));
 	check_thread_ = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&RKCtrlWnd::OnCheck, this)));
-	ctrl_initpos_thread_ = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&RKCtrlWnd::OnInitCtrlPos, this)));
+	
+	// 这里启动一个线程来初始化控件位置； 尝试过各种窗口初始化、发送消息、发送事件等方式，均失败，故使用多线程 
+	ctrl_initpos_thread_ = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&RKCtrlWnd::ResetKeyPos, this)));
 }
 
 void RKCtrlWnd::InitWindow()
 {
-	m_pm.SendNotify(m_pm.FindControl(_T("setupbtn")), DUI_MSGTYPE_CLICK);
-}
-
-LRESULT RKCtrlWnd::OnInitCtrl(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandle)
-{
-	return LRESULT();
 }
 
 LRESULT RKCtrlWnd::OnUpdateStatus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandle)
@@ -120,8 +118,7 @@ LRESULT RKCtrlWnd::OnCursorRButtonUp(UINT uMsg, WPARAM wParam, LPARAM lParam, BO
 
 LRESULT RKCtrlWnd::OnCursorMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
 {
-	if (rbtn_down_) {
-		CControlUI *ctrl = m_pm.FindControl(ch_names_[current_channel_]);
+	auto movectrl = [&](CControlUI *ctrl) {
 		RECT rect = ctrl->GetPos();
 		int add_x = GET_X_LPARAM(lParam) - old_point_.x;
 		int add_y = GET_Y_LPARAM(lParam) - old_point_.y;
@@ -132,12 +129,40 @@ LRESULT RKCtrlWnd::OnCursorMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & 
 		rect.top += add_y;
 		rect.bottom += add_y;
 		ctrl->SetPos(rect);
+	};
+
+	if (rbtn_down_)
+		movectrl(m_pm.FindControl(ch_names_[current_channel_]));
+	else if (lbtn_down_)
+		movectrl(m_pm.FindControl(current_pushpin_)->GetParent());
+
+	return LRESULT();
+}
+
+LRESULT RKCtrlWnd::OnPushpinLButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
+{
+	bHandled = false;
+	POINT point;
+	point.x = GET_X_LPARAM(lParam);
+	point.y = GET_Y_LPARAM(lParam);
+	if (InBtnRect(_T("pushpin_control"), point)) {
+		lbtn_down_ = true;
+		current_pushpin_ = _T("pushpin_control");
+		old_point_ = point;
+	} else if (InBtnRect(_T("pushpin_sysn"), point)) {
+		lbtn_down_ = true;
+		current_pushpin_ = _T("pushpin_sysn");
+		old_point_ = point;
 	}
 	return LRESULT();
 }
 
-void RKCtrlWnd::OnClickSetupBtn(TNotifyUI & msg, bool & handled)
+LRESULT RKCtrlWnd::OnPushpinLButtonUp(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
 {
+	bHandled = false;
+	current_pushpin_ = _T("");
+	lbtn_down_ = false;
+	return LRESULT();
 }
 
 void RKCtrlWnd::OnClick(TNotifyUI & msg, bool & handled)
@@ -156,6 +181,19 @@ void RKCtrlWnd::OnClick(TNotifyUI & msg, bool & handled)
 	RpcEndExcept
 
 	PostMessage(kAM_Update_Status, WPARAM(_enable), LPARAM(_check_value));
+}
+
+void RKCtrlWnd::OnClickSetupBtn(TNotifyUI & msg, bool & handled)
+{
+	m_pm.FindControl(_T("control_panel"))->SetVisible(true);
+	m_pm.FindControl(_T("sysn_panel"))->SetVisible(true);
+	ctrl_initpos_thread_ = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&RKCtrlWnd::ResetKeyPos, this)));
+}
+
+void RKCtrlWnd::OnClickClosePanelBtn(TNotifyUI & msg, bool & handled)
+{
+	msg.pSender->GetParent()->SetVisible(false);
+	ctrl_initpos_thread_ = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&RKCtrlWnd::ResetKeyPos, this)));
 }
 
 bool RKCtrlWnd::EnableControl(LPCTSTR name, bool enable)
@@ -212,13 +250,9 @@ bool RKCtrlWnd::BindServerIP()
 	return true;
 }
 
-void RKCtrlWnd::OnInitCtrlPos()
-{
-	ResetKeyPos();
-}
-
 void RKCtrlWnd::ResetKeyPos()
 {
+	Sleep(10);
 	RECT pos[8] = {};
 	RECT win_rect = {};
 	GetWindowRect(m_hWnd, &win_rect);
@@ -241,7 +275,7 @@ void RKCtrlWnd::ResetKeyPos()
 	CControlUI *ctrl;
 	for (int i = 0; i < 8; ++i) {
 		ctrl = m_pm.FindControl(ch_names_[i]);
-		ctrl->SetPos(pos[i]);
+		ctrl->SetPos(pos[i], true);
 	}
 }
 

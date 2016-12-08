@@ -13,15 +13,17 @@ public:
 	DECLARE_DUIWND_INFO(_T("RKCtrlWnd"), CS_DBLCLKS, _T("rk_ctrl_wnd.xml"))
 
 	BEGIN_DUIMSG_MAP(RKCtrlWnd)
-		DUIMSG_HANDLER(kAM_ControlInit, OnInitCtrl)
 		DUIMSG_HANDLER(kAM_Update_Status, OnUpdateStatus)
 		DUIMSG_HANDLER(WM_RBUTTONDOWN, OnCursorRButtonDown)
 		DUIMSG_HANDLER(WM_RBUTTONUP, OnCursorRButtonUp)
 		DUIMSG_HANDLER(WM_MOUSEMOVE, OnCursorMove)
+		DUIMSG_HANDLER(WM_LBUTTONDOWN, OnPushpinLButtonDown)
+		DUIMSG_HANDLER(WM_LBUTTONUP, OnPushpinLButtonUp)
 	END_DUIMSG_MAP()
 
 	BEGIN_DUINOTIFY_MAP(RKCtrlWnd)
 		DUINOTIFY_HANDLER(_T("setupbtn"), DUI_MSGTYPE_CLICK, OnClickSetupBtn)
+		DUINOTIFY_HANDLER(_T("close_panel"), DUI_MSGTYPE_CLICK, OnClickClosePanelBtn)
 		DUINOTIFY_TYPE_HANDLER(DUI_MSGTYPE_CLICK, OnClick)
 	END_DUINOTIFY_MAP()
 
@@ -32,20 +34,21 @@ private:
 	virtual void InitWindow() override;
 
 private:
-	LRESULT OnInitCtrl(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandle);
 	LRESULT OnUpdateStatus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandle);
 	LRESULT OnCursorRButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
 	LRESULT OnCursorRButtonUp(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
 	LRESULT OnCursorMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
+	LRESULT OnPushpinLButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
+	LRESULT OnPushpinLButtonUp(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
 
-	void OnClickSetupBtn(TNotifyUI& msg, bool& handled);
 	void OnClick(TNotifyUI& msg, bool& handled);
+	void OnClickSetupBtn(TNotifyUI& msg, bool& handled);
+	void OnClickClosePanelBtn(TNotifyUI& msg, bool& handled);
 
 private:
 	bool EnableControl(LPCTSTR name, bool enable);
 	void OnCheck();
 	bool BindServerIP();
-	void OnInitCtrlPos();
 	void ResetKeyPos();
 	bool InBtnRect(LPCTSTR btn_name, POINT point);
 
@@ -61,6 +64,8 @@ private:
 
 	UINT current_channel_;
 	bool rbtn_down_;
+	bool lbtn_down_;
 	POINT old_point_;
+	CDuiString current_pushpin_;
 };
 
