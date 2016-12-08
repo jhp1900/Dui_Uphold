@@ -15,6 +15,8 @@ void __RPC_USER midl_user_free(void __RPC_FAR *ptr) {
 
 RKCtrlWnd::RKCtrlWnd(HWND pa_hwnd)
 	: pa_hwnd_(pa_hwnd)
+	, check_thread_(nullptr)
+	, ctrl_initpos_thread_(nullptr)
 	, binding_hwnd_(nullptr)
 	, binding_str_(0)
 	, current_channel_(-1)
@@ -22,6 +24,7 @@ RKCtrlWnd::RKCtrlWnd(HWND pa_hwnd)
 	, lbtn_down_(false)
 	, old_point_({ 0, 0 })
 	, current_pushpin_(_T(""))
+	, menu_wnd_(nullptr)
 {
 	for (int i = 4; i < 12; ++i) {
 		TCHAR name[32];
@@ -53,6 +56,8 @@ void RKCtrlWnd::Init()
 
 void RKCtrlWnd::InitWindow()
 {
+	menu_wnd_.reset(new MenuWnd(m_hWnd));
+	menu_wnd_->CreateWithDefaltStyle();
 }
 
 LRESULT RKCtrlWnd::OnUpdateStatus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandle)
@@ -174,6 +179,34 @@ LRESULT RKCtrlWnd::OnPushpinLButtonUp(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 	return LRESULT();
 }
 
+LRESULT RKCtrlWnd::OnPopMenuClickMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
+{
+	switch (wParam)
+	{
+		case SysnSchedule: {
+			SetPanelVisible(_T("sysn_panel"), true);
+			break;
+		}
+		case PTZ: {
+			break;
+		}
+		case ControlPanel: {
+			SetPanelVisible(_T("control_panel"), true);
+			break;
+		}
+		case LinkServe: {
+			break;
+		}
+		case BackStreams: {
+			break;
+		}
+
+		default:
+			break;
+	}
+	return LRESULT();
+}
+
 void RKCtrlWnd::OnClick(TNotifyUI & msg, bool & handled)
 {
 	int key = _tstoi(msg.pSender->GetUserData());
@@ -194,15 +227,14 @@ void RKCtrlWnd::OnClick(TNotifyUI & msg, bool & handled)
 
 void RKCtrlWnd::OnClickSetupBtn(TNotifyUI & msg, bool & handled)
 {
-	m_pm.FindControl(_T("control_panel"))->SetVisible(true);
-	m_pm.FindControl(_T("sysn_panel"))->SetVisible(true);
-	ctrl_initpos_thread_ = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&RKCtrlWnd::ResetKeyPos, this)));
+	LPPOINT lpoint = new tagPOINT;
+	::GetCursorPos(lpoint);
+	menu_wnd_->PopupWnd(lpoint);
 }
 
 void RKCtrlWnd::OnClickClosePanelBtn(TNotifyUI & msg, bool & handled)
 {
-	msg.pSender->GetParent()->SetVisible(false);
-	ctrl_initpos_thread_ = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&RKCtrlWnd::ResetKeyPos, this)));
+	SetPanelVisible(msg.pSender->GetParent()->GetName(), false);
 }
 
 bool RKCtrlWnd::EnableControl(LPCTSTR name, bool enable)
@@ -242,7 +274,7 @@ bool RKCtrlWnd::BindServerIP()
 	CDuiString ip, port;
 	ResSingleton::GetInstance()->GetSysCfg()->GetIpInfo(ServerIP, ip, port);
 	if (ip.GetLength() < 7 || port.GetLength() < 1) {
-		::MessageBox(m_hWnd, _T("Address is empty or incorrectly set!"), _T("OnInit"), MB_OK);
+		::MessageBox(m_hWnd, _T("Address is empty or incorrectly set!"), _T("InitWindow"), MB_OK);
 		return false;
 	}
 
@@ -253,7 +285,7 @@ bool RKCtrlWnd::BindServerIP()
 	{
 		TCHAR buf[512];
 		_stprintf_s(buf, sizeof(buf) / sizeof(TCHAR), _T("Connect the controlled terminal failed : %d"), GetLastError());
-		::MessageBox(m_hWnd, buf, _T("OnInit"), MB_OK);
+		::MessageBox(m_hWnd, buf, _T("InitWindow"), MB_OK);
 		return false;
 	}
 	return true;
@@ -276,4 +308,10 @@ bool RKCtrlWnd::InBtnRect(LPCTSTR btn_name, POINT point)
 {
 	const RECT rect = m_pm.FindControl(btn_name)->GetPos();
 	return PtInRect(&rect, point);
+}
+
+void RKCtrlWnd::SetPanelVisible(LPCTSTR panel_name, bool visible)
+{
+	m_pm.FindControl(panel_name)->SetVisible(visible);
+	ctrl_initpos_thread_ = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&RKCtrlWnd::ResetKeyPos, this)));
 }

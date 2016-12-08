@@ -168,6 +168,7 @@
     <ClInclude Include="msg_head.h" />
     <ClInclude Include="res_singleton.h" />
     <ClInclude Include="rk_ctrl_wnd.h" />
+    <ClInclude Include="menu_wnd.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="sys_cfg.h" />
     <ClInclude Include="targetver.h" />
@@ -178,6 +179,7 @@
     <ClCompile Include="inlet_function.cpp" />
     <ClCompile Include="res_singleton.cpp" />
     <ClCompile Include="rk_ctrl_wnd.cpp" />
+    <ClCompile Include="menu_wnd.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="sys_cfg.cpp" />
     <ClCompile Include="vlc_tool.cpp" />

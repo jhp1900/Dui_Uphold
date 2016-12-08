@@ -3,6 +3,7 @@
 #include "msg_head.h"
 #include <boost\crc.hpp>
 #include <boost\thread.hpp>
+#include "menu_wnd.h"
 
 class RKCtrlWnd : public WindowImplBase
 {
@@ -19,6 +20,7 @@ public:
 		DUIMSG_HANDLER(WM_MOUSEMOVE, OnCursorMove)
 		DUIMSG_HANDLER(WM_LBUTTONDOWN, OnPushpinLButtonDown)
 		DUIMSG_HANDLER(WM_LBUTTONUP, OnPushpinLButtonUp)
+		DUIMSG_HANDLER(kAM_PopMenuClickMsg, OnPopMenuClickMsg)
 	END_DUIMSG_MAP()
 
 	BEGIN_DUINOTIFY_MAP(RKCtrlWnd)
@@ -40,6 +42,7 @@ private:
 	LRESULT OnCursorMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
 	LRESULT OnPushpinLButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
 	LRESULT OnPushpinLButtonUp(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
+	LRESULT OnPopMenuClickMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
 
 	void OnClick(TNotifyUI& msg, bool& handled);
 	void OnClickSetupBtn(TNotifyUI& msg, bool& handled);
@@ -51,6 +54,7 @@ private:
 	bool BindServerIP();
 	void ResetKeyPos();
 	bool InBtnRect(LPCTSTR btn_name, POINT point);
+	void SetPanelVisible(LPCTSTR panel_name, bool visible);
 
 private:
 	HWND pa_hwnd_;
@@ -67,5 +71,7 @@ private:
 	bool lbtn_down_;
 	POINT old_point_;
 	CDuiString current_pushpin_;
+
+	std::shared_ptr<MenuWnd> menu_wnd_;
 };
 

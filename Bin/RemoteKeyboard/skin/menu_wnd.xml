@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window roundcorner="5,5" size="100,239">
+  <Font id="0" name="微软雅黑" size="18" bold="false" italic="false" default="true" />
+  <VerticalLayout bkcolor="#55888888" inset="5,5,5,5" childpadding="2">
+    <Button name="ptz" text="云台" height="35" align="left" textcolor="#ff000000" textpadding="10,0,0,0" borderround="5,5" bkcolor="#88e0e0e0" hotbkcolor="#ff5ccc5c" hottextcolor="#ff0000aa" />
+    <Button name="control_panel" text="控制台" height="35" align="left" textcolor="#ff000000" textpadding="10,0,0,0" borderround="5,5" bkcolor="#88e0e0e0" hotbkcolor="#ff5ccc5c" hottextcolor="#ff0000aa" />
+    <Button name="sync_lession" text="同步排课" height="35" align="left" textcolor="#ff000000" textpadding="10,0,0,0" borderround="5,5" bkcolor="#88e0e0e0" hotbkcolor="#ff5ccc5c" hottextcolor="#ff0000aa" />
+    <Button name="link_serve" text="连接主机" height="35" align="left" textcolor="#ff000000" textpadding="10,0,0,0" borderround="5,5" bkcolor="#88e0e0e0" hotbkcolor="#ff5ccc5c" hottextcolor="#ff0000aa" />
+    <Button name="back_streams" text="背景流" height="35" align="left" textcolor="#ff000000" textpadding="10,0,0,0" borderround="5,5" bkcolor="#88e0e0e0" hotbkcolor="#ff5ccc5c" hottextcolor="#ff0000aa" />
+    <Control height="1" />
+    <Control height="1" bkcolor="#ff666666" />
+    <Control height="1" />
+    <Button name="closebtn" text="退出" height="35" align="left" textcolor="#ff000000" textpadding="10,0,0,0" borderround="5,5" bkcolor="#88e0e0e0" hotbkcolor="#ff5ccc5c" hottextcolor="#ff0000aa" />
+  </VerticalLayout>
+</Window>
