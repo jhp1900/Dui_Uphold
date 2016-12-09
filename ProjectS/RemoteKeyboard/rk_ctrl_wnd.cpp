@@ -28,7 +28,7 @@ RKCtrlWnd::RKCtrlWnd(HWND pa_hwnd)
 	, menu_wnd_(nullptr)
 	, ptz_wnd_(nullptr)
 {
-	for (int i = 4; i < 12; ++i) {
+	for (int i = 0; i < 14; ++i) {
 		TCHAR name[32];
 		_stprintf_s(name, sizeof(name) / sizeof(TCHAR), _T("rkbc_%02d"), i);
 		ch_names_.push_back(name);
@@ -67,13 +67,11 @@ LRESULT RKCtrlWnd::OnUpdateStatus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL 
 	static bool _last_enabled = true;
 	bool _enable = (wParam != 0);
 	unsigned int _check_value = (unsigned int)(lParam);
-	TCHAR name[32];
 
 	if (_last_enabled != _enable) {
 		_last_enabled = _enable;
-		for (int i = 1;; ++i) {
-			_stprintf_s(name, sizeof(name) / sizeof(TCHAR), _T("rkbc_%02d"), i);
-			if (!EnableControl(name, _last_enabled))
+		for (int i = 1; i < 14; ++i) {
+			if (!EnableControl(ch_names_[i], _last_enabled))
 				break;
 		}
 	}
@@ -84,14 +82,14 @@ LRESULT RKCtrlWnd::OnUpdateStatus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL 
 		unsigned int _director_status = (_check_value >> 6) & 0x3;
 
 		for (int i = 1; i < 14; ++i) {
-			_stprintf_s(name, sizeof(name) / sizeof(TCHAR), _T("rkbc_%02d"), i);
-
 			if (i < 4) {
-				EnableControl(name, _recode_status != i);
+				EnableControl(ch_names_[i], _recode_status != i);
+				PostMessage(kAM_RecordStatusMsg, (WPARAM)ch_names_[i].GetData(), _recode_status != i);
 			} else if (i < 12) {
-				EnableControl(name, _ch_status != i - 3);
+				EnableControl(ch_names_[i], _ch_status != i - 3);
 			} else {
-				EnableControl(name, _director_status != i - 11);
+				EnableControl(ch_names_[i], _director_status != i - 11);
+				PostMessage(kAM_DirectorStatusMsg, (WPARAM)ch_names_[i].GetData(), _director_status != i - 11);
 			}
 		}
 	}
@@ -105,7 +103,7 @@ LRESULT RKCtrlWnd::OnCursorRButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, 
 	POINT point;
 	point.x = GET_X_LPARAM(lParam);
 	point.y = GET_Y_LPARAM(lParam);
-	for (int i = 0; i < 8; ++i) {
+	for (int i = 4; i < 12; ++i) {
 		if (InBtnRect(ch_names_[i], point)) {
 			rbtn_down_ = true;
 			current_channel_ = i;
@@ -232,6 +230,31 @@ LRESULT RKCtrlWnd::OnPtzClickMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &
 	return LRESULT();
 }
 
+LRESULT RKCtrlWnd::OnStatusShowkMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandle)
+{
+	if (lParam)
+		return 0;
+	CDuiString name = (LPCTSTR)wParam;
+	if (uMsg == kAM_RecordStatusMsg) {
+		COptionUI *record_status = static_cast<COptionUI*>(m_pm.FindControl(_T("record_status")));
+		if (name == _T("rkbc_01")) {
+			record_status->SetEnabled(false);
+		} else if (name == _T("rkbc_02")) {
+			record_status->SetEnabled(true);
+			record_status->Selected(true);
+		} else if (name == _T("rkbc_03")) {
+			record_status->SetEnabled(true);
+			record_status->Selected(false);
+		}
+	} else if (uMsg == kAM_DirectorStatusMsg) {
+		if (name == _T("rkbc_12"))		// 自动导播
+			m_pm.FindControl(_T("director_status"))->SetEnabled(true);
+		else if(name == _T("rkbc_13"))	// 手动导播
+			m_pm.FindControl(_T("director_status"))->SetEnabled(false);
+	}
+	return LRESULT();
+}
+
 void RKCtrlWnd::OnClick(TNotifyUI & msg, bool & handled)
 {
 	int key = _tstoi(msg.pSender->GetUserData());
@@ -322,7 +345,7 @@ void RKCtrlWnd::ResetKeyPos()
 	RECT pos = { 0 };
 	CControlUI *ctrl;
 	SysCfg *sys_cfg = ResSingleton::GetInstance()->GetSysCfg();
-	for (int i = 0; i < 8; ++i) {
+	for (int i = 4; i < 12; ++i) {
 		pos = sys_cfg->GetChBtnPos(ch_names_[i], i, m_hWnd);
 		ctrl = m_pm.FindControl(ch_names_[i]);
 		ctrl->SetPos(pos, true);

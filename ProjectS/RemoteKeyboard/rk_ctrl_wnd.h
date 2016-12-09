@@ -24,6 +24,8 @@ public:
 		DUIMSG_HANDLER(kAM_PopMenuClickMsg, OnPopMenuClickMsg)
 		DUIMSG_HANDLER(kAM_ResetIPInfo, OnResetIPInfoMsg)
 		DUIMSG_HANDLER(kAM_PTZ, OnPtzClickMsg)
+		DUIMSG_HANDLER(kAM_RecordStatusMsg, OnStatusShowkMsg)
+		DUIMSG_HANDLER(kAM_DirectorStatusMsg, OnStatusShowkMsg)
 	END_DUIMSG_MAP()
 
 	BEGIN_DUINOTIFY_MAP(RKCtrlWnd)
@@ -48,6 +50,7 @@ private:
 	LRESULT OnPopMenuClickMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
 	LRESULT OnResetIPInfoMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
 	LRESULT OnPtzClickMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandle);
+	LRESULT OnStatusShowkMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandle);
 
 	void OnClick(TNotifyUI& msg, bool& handled);
 	void OnClickSetupBtn(TNotifyUI& msg, bool& handled);
