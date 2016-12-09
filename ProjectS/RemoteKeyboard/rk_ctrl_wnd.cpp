@@ -2,6 +2,7 @@
 #include "RemoteKeyBoardCtrl/RemoteKeyBoardCtrl_h.h"
 #include "RemoteKeyBoardCtrl/RemoteKeyBoardCtrl_c.c"
 #include "res_singleton.h"
+#include "ip_set_wnd.h"
 
 #pragma comment(lib,"Rpcrt4.lib")
 
@@ -25,6 +26,7 @@ RKCtrlWnd::RKCtrlWnd(HWND pa_hwnd)
 	, old_point_({ 0, 0 })
 	, current_pushpin_(_T(""))
 	, menu_wnd_(nullptr)
+	, ptz_wnd_(nullptr)
 {
 	for (int i = 4; i < 12; ++i) {
 		TCHAR name[32];
@@ -188,6 +190,8 @@ LRESULT RKCtrlWnd::OnPopMenuClickMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BO
 			break;
 		}
 		case PTZ: {
+			ptz_wnd_.reset(new PtzWnd(m_hWnd));
+			ptz_wnd_->DoModal();
 			break;
 		}
 		case ControlPanel: {
@@ -195,15 +199,36 @@ LRESULT RKCtrlWnd::OnPopMenuClickMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BO
 			break;
 		}
 		case LinkServe: {
+			IpSetWnd ipset_wnd(m_hWnd, ServerIP);
+			ipset_wnd.DoModal();
 			break;
 		}
 		case BackStreams: {
+			IpSetWnd ipset_wnd(m_hWnd, BackStreamsIP);
+			ipset_wnd.DoModal();
 			break;
 		}
 
 		default:
 			break;
 	}
+	return LRESULT();
+}
+
+LRESULT RKCtrlWnd::OnResetIPInfoMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
+{
+	if(wParam == ServerIP)
+		BindServerIP();
+	else if(wParam == BackStreamsIP)
+		::PostMessage(pa_hwnd_, uMsg, wParam, lParam);
+	return LRESULT();
+}
+
+LRESULT RKCtrlWnd::OnPtzClickMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandle)
+{
+	CButtonUI * ptz_btn = static_cast<CButtonUI*>(m_pm.FindControl((LPCTSTR)wParam));
+	if (ptz_btn)
+		m_pm.SendNotify(ptz_btn, DUI_MSGTYPE_CLICK);
 	return LRESULT();
 }
 

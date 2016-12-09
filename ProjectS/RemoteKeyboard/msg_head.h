@@ -7,4 +7,6 @@ enum AppMsg
 	kAM_ControlInit,					// 控件初始化
 	kAM_Update_Status,					// 刷新控件
 	kAM_PopMenuClickMsg,				// 设置菜单消息
+	kAM_ResetIPInfo,					// 重置服务端Ip
+	kAM_PTZ,							// ptz_wnd 界面的点击消息
 };

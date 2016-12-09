@@ -21,9 +21,6 @@
     <ClInclude Include="vlc_tool.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="home_wnd.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -45,15 +42,21 @@
     <ClInclude Include="menu_wnd.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ip_set_wnd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ptz_wnd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="back_wnd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="inlet_function.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="vlc_tool.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="home_wnd.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
@@ -69,6 +72,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="menu_wnd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ip_set_wnd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ptz_wnd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="back_wnd.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

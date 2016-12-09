@@ -85,6 +85,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)Bin\$(ProjectName)</OutDir>
+    <IntDir>$(SolutionDir)Temp\$(ProjectName)\$(Configuration)\</IntDir>
+    <IncludePath>..\..\third_party\libvlc_include;..\..\third_party\libvlc_include\vlc\plugins;..\..\third_party\boost\include;..\..\third_party\pugixml;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\third_party\libvlc_lib;..\..\third_party\boost\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -134,6 +138,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -141,6 +146,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libvlc.lib;libvlccore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/SAFESEH:NO  %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -164,8 +170,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="debug_tools.h" />
-    <ClInclude Include="home_wnd.h" />
+    <ClInclude Include="back_wnd.h" />
+    <ClInclude Include="ip_set_wnd.h" />
     <ClInclude Include="msg_head.h" />
+    <ClInclude Include="ptz_wnd.h" />
     <ClInclude Include="res_singleton.h" />
     <ClInclude Include="rk_ctrl_wnd.h" />
     <ClInclude Include="menu_wnd.h" />
@@ -175,8 +183,10 @@
     <ClInclude Include="vlc_tool.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="home_wnd.cpp" />
+    <ClCompile Include="back_wnd.cpp" />
     <ClCompile Include="inlet_function.cpp" />
+    <ClCompile Include="ip_set_wnd.cpp" />
+    <ClCompile Include="ptz_wnd.cpp" />
     <ClCompile Include="res_singleton.cpp" />
     <ClCompile Include="rk_ctrl_wnd.cpp" />
     <ClCompile Include="menu_wnd.cpp" />

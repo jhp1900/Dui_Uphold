@@ -1,4 +1,4 @@
-#include "home_wnd.h"
+#include "back_wnd.h"
 #include "res_singleton.h"
 
 BackWnd::BackWnd()
@@ -19,6 +19,13 @@ LRESULT BackWnd::OnInitOtherWndMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL
 {
 	rk_ctrl_wnd_.reset(new RKCtrlWnd(m_hWnd));
 	rk_ctrl_wnd_->Init();
+	return LRESULT();
+}
+
+LRESULT BackWnd::OnResetIPInfoMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
+{
+	vlc_tool_->Destory();
+	RunBackVideo();
 	return LRESULT();
 }
 

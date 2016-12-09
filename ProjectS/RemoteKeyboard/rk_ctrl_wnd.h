@@ -4,6 +4,7 @@
 #include <boost\crc.hpp>
 #include <boost\thread.hpp>
 #include "menu_wnd.h"
+#include "ptz_wnd.h"
 
 class RKCtrlWnd : public WindowImplBase
 {
@@ -21,6 +22,8 @@ public:
 		DUIMSG_HANDLER(WM_LBUTTONDOWN, OnPushpinLButtonDown)
 		DUIMSG_HANDLER(WM_LBUTTONUP, OnPushpinLButtonUp)
 		DUIMSG_HANDLER(kAM_PopMenuClickMsg, OnPopMenuClickMsg)
+		DUIMSG_HANDLER(kAM_ResetIPInfo, OnResetIPInfoMsg)
+		DUIMSG_HANDLER(kAM_PTZ, OnPtzClickMsg)
 	END_DUIMSG_MAP()
 
 	BEGIN_DUINOTIFY_MAP(RKCtrlWnd)
@@ -43,6 +46,8 @@ private:
 	LRESULT OnPushpinLButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
 	LRESULT OnPushpinLButtonUp(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
 	LRESULT OnPopMenuClickMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
+	LRESULT OnResetIPInfoMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
+	LRESULT OnPtzClickMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandle);
 
 	void OnClick(TNotifyUI& msg, bool& handled);
 	void OnClickSetupBtn(TNotifyUI& msg, bool& handled);
@@ -73,5 +78,6 @@ private:
 	CDuiString current_pushpin_;
 
 	std::shared_ptr<MenuWnd> menu_wnd_;
+	std::shared_ptr<PtzWnd> ptz_wnd_;
 };
 

@@ -14,6 +14,7 @@ public:
 
 	BEGIN_DUIMSG_MAP(BackWnd)
 		DUIMSG_HANDLER(kAM_InitOtherWndMsg, OnInitOtherWndMsg)
+		DUIMSG_HANDLER(kAM_ResetIPInfo, OnResetIPInfoMsg)
 	END_DUIMSG_MAP()
 
 public:
@@ -21,6 +22,7 @@ public:
 
 private:
 	LRESULT OnInitOtherWndMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
+	LRESULT OnResetIPInfoMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
 
 private:
 	void RunBackVideo();
