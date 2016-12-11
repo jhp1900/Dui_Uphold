@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window size="380,125" roundcorner="10,10" caption="0,0,0,125">
+  <Font id="0" name="微软雅黑" size="18" bold="false" italic="false" default="true" />
+  <VerticalLayout inset="0,25,25,0">
+    <VerticalLayout bkcolor="#55888888" borderround="10,10">
+      <Control />
+      <HorizontalLayout height="50" childpadding="2">
+        <Control />
+        <Option name="dpi_100" width="60" text="100%" userdata="96" borderround="4,4" bkcolor="#88888888" selectedtextcolor="#ffff0000" group="dpi" />
+        <Option name="dpi_125" width="60" text="125%" userdata="120" borderround="4,4" bkcolor="#88888888" selectedtextcolor="#ffff0000" group="dpi" />
+        <Option name="dpi_150" width="60" text="150%" userdata="144" borderround="4,4" bkcolor="#88888888" selectedtextcolor="#ffff0000" group="dpi" />
+        <Option name="dpi_175" width="60" text="175%" userdata="168" borderround="4,4" bkcolor="#88888888" selectedtextcolor="#ffff0000" group="dpi" />
+        <Option name="dpi_200" width="60" text="200%" userdata="192" borderround="4,4" bkcolor="#88888888" selectedtextcolor="#ffff0000" group="dpi" />
+        <Control />
+      </HorizontalLayout>
+      <Control />
+    </VerticalLayout>
+    <Button name="close_wnd" float="true" pos="330,0,380,50" bkcolor="#ff456789" pushedimage="" />
+  </VerticalLayout>
+</Window>

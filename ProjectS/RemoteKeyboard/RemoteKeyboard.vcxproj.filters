@@ -51,6 +51,9 @@
     <ClInclude Include="back_wnd.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="dpiset_wnd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="inlet_function.cpp">
@@ -81,6 +84,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="back_wnd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="dpiset_wnd.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

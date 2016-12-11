@@ -112,8 +112,8 @@ RECT SysCfg::GetChBtnPos(LPCTSTR name, int index, HWND hwnd)
 		UINT w = (win_rect.right - win_rect.left - 90) / 5;
 		UINT h = (win_rect.bottom - win_rect.top - 70) / 3;
 		TCHAR str_pos[MAX_PATH] = { 0 };
-
-		if (++index <= 4) {
+		index -= 3;
+		if (index <= 4) {
 			_stprintf(str_pos, _T("%d,%d,%d,%d"), index*w, h, index*w + 90, h + 70);
 		} else {
 			index -= 4;

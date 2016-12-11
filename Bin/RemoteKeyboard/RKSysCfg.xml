@@ -1,13 +1,13 @@
-﻿<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <cfginfo name="default" version="1.0">
+  <BackStreamsIP ip="127.0.0.1" port="12321" />
   <SarverIP ip="127.0.0.1" port="12321" />
-  <BackStreamsIP ip="192.0.0.123" port="11" />
-  <rkbc_04 pos="803,354,893,424" />
-  <rkbc_05 pos="239,174,329,244" />
-  <rkbc_06 pos="538,127,628,197" />
-  <rkbc_07 pos="408,343,498,413" />
-  <rkbc_08 pos="621,358,711,428" />
-  <rkbc_09 pos="1129,181,1219,251" />
-  <rkbc_10 pos="1009,373,1099,443" />
-  <rkbc_11 pos="955,150,1045,220" />
+  <rkbc_04 pos="166,81,256,151" />
+  <rkbc_05 pos="361,91,451,161" />
+  <rkbc_06 pos="495,88,585,158" />
+  <rkbc_07 pos="638,90,728,160" />
+  <rkbc_08 pos="164,205,254,275" />
+  <rkbc_09 pos="356,212,446,282" />
+  <rkbc_10 pos="489,214,579,284" />
+  <rkbc_11 pos="637,213,727,283" />
 </cfginfo>

@@ -171,6 +171,7 @@
   <ItemGroup>
     <ClInclude Include="debug_tools.h" />
     <ClInclude Include="back_wnd.h" />
+    <ClInclude Include="dpiset_wnd.h" />
     <ClInclude Include="ip_set_wnd.h" />
     <ClInclude Include="msg_head.h" />
     <ClInclude Include="ptz_wnd.h" />
@@ -184,6 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="back_wnd.cpp" />
+    <ClCompile Include="dpiset_wnd.cpp" />
     <ClCompile Include="inlet_function.cpp" />
     <ClCompile Include="ip_set_wnd.cpp" />
     <ClCompile Include="ptz_wnd.cpp" />

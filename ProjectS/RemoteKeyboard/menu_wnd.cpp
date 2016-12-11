@@ -73,6 +73,8 @@ void MenuWnd::OnClickBtn(TNotifyUI & msg, bool & handled)
 		::SendMessage(pa_hwnd_, kAM_PopMenuClickMsg, LinkServe, 0);
 	else if (name == _T("back_streams"))
 		::SendMessage(pa_hwnd_, kAM_PopMenuClickMsg, BackStreams, 0);
+	else if (name == _T("dpi_set"))
+		::SendMessage(pa_hwnd_, kAM_PopMenuClickMsg, DPISet, 0);
 	else if (name == _T("closebtn"))
 		::exit(0);
 

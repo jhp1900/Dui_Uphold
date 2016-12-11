@@ -26,6 +26,7 @@ public:
 		DUIMSG_HANDLER(kAM_PTZ, OnPtzClickMsg)
 		DUIMSG_HANDLER(kAM_RecordStatusMsg, OnStatusShowkMsg)
 		DUIMSG_HANDLER(kAM_DirectorStatusMsg, OnStatusShowkMsg)
+		DUIMSG_HANDLER(kAM_DPISetMsg, OnDPISetMsg)
 	END_DUIMSG_MAP()
 
 	BEGIN_DUINOTIFY_MAP(RKCtrlWnd)
@@ -51,6 +52,7 @@ private:
 	LRESULT OnResetIPInfoMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
 	LRESULT OnPtzClickMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandle);
 	LRESULT OnStatusShowkMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandle);
+	LRESULT OnDPISetMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandle);
 
 	void OnClick(TNotifyUI& msg, bool& handled);
 	void OnClickSetupBtn(TNotifyUI& msg, bool& handled);
@@ -73,6 +75,8 @@ private:
 	RPC_BINDING_HANDLE binding_hwnd_;
 	RPC_WSTR binding_str_;
 	volatile LONG check_running_;
+	std::wstring m_lession_info;
+	DWORD m_lession_info_checksum;
 
 	UINT current_channel_;
 	bool rbtn_down_;

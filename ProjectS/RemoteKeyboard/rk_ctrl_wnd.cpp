@@ -3,8 +3,21 @@
 #include "RemoteKeyBoardCtrl/RemoteKeyBoardCtrl_c.c"
 #include "res_singleton.h"
 #include "ip_set_wnd.h"
+#include "dpiset_wnd.h"
 
 #pragma comment(lib,"Rpcrt4.lib")
+
+static const struct {
+	LPCTSTR name;
+	LPCTSTR attr;
+} g_LessionMappingTable[] = {
+	{ _T("grade_edit"), _T("grade") },
+	{ _T("teacher_id_edit"), _T("teacher_id") },
+	{ _T("teacher_name_edit"), _T("teacher_name") },
+	{ _T("subject_edit"), _T("subject") },
+	{ _T("chapter_edit"), _T("chapter") },
+	{ _T("chapter_name_edit"), _T("chapter_name") }
+};
 
 void __RPC_FAR* __RPC_USER midl_user_allocate(size_t len) {
 	return(malloc(len));
@@ -92,6 +105,46 @@ LRESULT RKCtrlWnd::OnUpdateStatus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL 
 				PostMessage(kAM_DirectorStatusMsg, (WPARAM)ch_names_[i].GetData(), _director_status != i - 11);
 			}
 		}
+	}
+
+	/* 如果同步排课界面不处于显示状态，则不刷新 */
+	if (!m_pm.FindControl(_T("sysn_panel"))->IsVisible())
+		return 0;
+
+	auto _GetExtendInfoWrap = [this](byte* &pBuf, long &nSize) -> boolean {
+		boolean ret = false;
+
+		RpcTryExcept
+			ret = rkbc_GetExtendInfo(binding_hwnd_, kExtendType_LessionInfo, __int64(m_lession_info_checksum), &pBuf, &nSize);
+		RpcExcept(1)
+			ret = false;
+		RpcEndExcept
+
+			return ret;
+	};
+
+	byte *pBuf = 0;
+	long nSize = 0;
+	if (_enable && _GetExtendInfoWrap(pBuf, nSize) && pBuf) {
+		auto const &items = g_LessionMappingTable;
+
+		pugi::xml_document doc;
+		if (doc.load(LPCTSTR(pBuf))) {
+			pugi::xml_node elem = doc.child(_T("lesson"));
+			if (elem) {
+				for (int i = 0; i < _countof(items); ++i) {
+					DuiLib::CControlUI *ctrl;
+					if (ctrl = m_pm.FindControl(items[i].name))
+						ctrl->SetText(elem.attribute(items[i].attr).as_string());
+				}
+
+				m_lession_info = LPCTSTR(pBuf);
+				boost::crc_32_type result;
+				result.process_bytes(reinterpret_cast<const byte *>(m_lession_info.data()), (m_lession_info.size() + 1) * sizeof(wchar_t));
+				m_lession_info_checksum = result.checksum();
+			}
+		}
+		midl_user_free(pBuf);
 	}
 
 	return LRESULT();
@@ -206,6 +259,11 @@ LRESULT RKCtrlWnd::OnPopMenuClickMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BO
 			ipset_wnd.DoModal();
 			break;
 		}
+		case DPISet: {
+			DPISetWnd dpiset_wnd(m_hWnd);
+			dpiset_wnd.DoModal();
+			break;
+		}
 
 		default:
 			break;
@@ -252,6 +310,13 @@ LRESULT RKCtrlWnd::OnStatusShowkMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOO
 		else if(name == _T("rkbc_13"))	// 手动导播
 			m_pm.FindControl(_T("director_status"))->SetEnabled(false);
 	}
+	return LRESULT();
+}
+
+LRESULT RKCtrlWnd::OnDPISetMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandle)
+{
+	m_pm.SetDPI((int)wParam);
+	ctrl_initpos_thread_ = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&RKCtrlWnd::ResetKeyPos, this)));
 	return LRESULT();
 }
 

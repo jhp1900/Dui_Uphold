@@ -11,4 +11,5 @@ enum AppMsg
 	kAM_PTZ,							// ptz_wnd 界面的点击消息
 	kAM_RecordStatusMsg,				// 录制控制状态消息
 	kAM_DirectorStatusMsg,				// 手自动导播状态消息
+	kAM_DPISetMsg,						// DIP 设置消息
 };

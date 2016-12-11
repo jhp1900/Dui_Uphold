@@ -9,6 +9,7 @@ enum PopMsgType
 	ControlPanel,		// 控制中心
 	LinkServe,			// 服务器连接
 	BackStreams,		// 背景流
+	DPISet,				// DPI 设置
 };
 
 class MenuWnd : public WindowImplBase
