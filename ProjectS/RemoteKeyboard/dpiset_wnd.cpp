@@ -24,7 +24,7 @@ void DPISetWnd::InitWindow()
 
 void DPISetWnd::OnSelectChanged(TNotifyUI & msg, bool & handled)
 {
-	::PostMessage(pa_hwnd_, kAM_DPISetMsg, (WPARAM)_tstoi(msg.pSender->GetUserData()), 0);
+	//::PostMessage(pa_hwnd_, kAM_DPISetMsg, (WPARAM)_tstoi(msg.pSender->GetUserData()), 0);
 }
 
 void DPISetWnd::OnClickBtn(TNotifyUI & msg, bool & handled)

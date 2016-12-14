@@ -3,7 +3,7 @@
   <Font id="0" name="Arial" size="16" bold="false" italic="false" default="true" />
   <Font id="1" name="Arial" size="20" bold="true" />
   <Font id="2" name="Arial" size="34" bold="true" />
-  <VerticalLayout name="body_layout" bkcolor="#ff005500">
+  <VerticalLayout name="body_layout">
     <HorizontalLayout height="80" inset="0,10,10,0">
       <Control />
       <HorizontalLayout visible="false">
@@ -16,7 +16,7 @@
         <Button name="ptz_home" userdata="80030" visible="false" />	
         <Button name="ptz_stop" userdata="80999" visible="false" />	
       </HorizontalLayout>
-      <Button name="setupbtn" width="70" bkcolor="#ff325698" bkimage="res/setup_1.png" hotimage="res/setup_2.png" />
+      <Button name="setupbtn" width="70" bkimage="res/setup_1.png" pushedimage="res/setup_2.png" />
     </HorizontalLayout>
     <Button name="rkbc_04" userdata="20001" text="CH1" font="2" textcolor="#ffdddddd" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#88555555" hotbkcolor="#" float="true" />
     <Button name="rkbc_05" userdata="20002" text="CH2" font="2" textcolor="#ffdddddd" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#88555555" hotbkcolor="#" float="true" />
@@ -26,8 +26,8 @@
     <Button name="rkbc_09" userdata="20006" text="CH6" font="2" textcolor="#ffdddddd" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#88555555" hotbkcolor="#" float="true" />
     <Button name="rkbc_10" userdata="20007" text="CH7" font="2" textcolor="#ffdddddd" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#88555555" hotbkcolor="#" float="true" />
     <Button name="rkbc_11" userdata="20008" text="CH8" font="2" textcolor="#ffdddddd" disabledtextcolor="#ffff0000" borderround="4,4" bkcolor="#88555555" hotbkcolor="#" float="true" />
-    <VerticalLayout name="control_panel" userdata="570,100,100" float="true" pos="100,100,670,200" visible="false" inset="0,20,20,0">
-      <HorizontalLayout bkcolor="#88555555" borderround="4,4" inset="20,20,20,20">
+    <VerticalLayout name="control_panel" userdata="580,110,100" float="true" pos="100,100,680,210" visible="false" inset="0,25,25,0">
+      <HorizontalLayout bkcolor="#88555555" borderround="4,4" inset="25,25,25,25">
         <Button name="rkbc_01" width="90" userdata="10001" text="开始录制" font="1" disabledtextcolor="#55ff0000" borderround="4,4" bkcolor="#ffbbbbbb" />
         <Control width="2" />
         <Button name="rkbc_02" width="90" userdata="10002" text="暂停录制" font="1" disabledtextcolor="#55ff0000" borderround="4,4" bkcolor="#ffbbbbbb" />
@@ -38,11 +38,11 @@
         <Control width="2" />
         <Button name="rkbc_13" width="90" userdata="30002" text="手动导播" font="1" disabledtextcolor="#55ff0000" borderround="4,4" bkcolor="#ffbbbbbb" />
       </HorizontalLayout>
-      <Label name="pushpin_control" bkimage="res/pushpin.png" float="true" pos="255,0,295,40" />
-      <Button name="close_panel" bkcolor="#ffff0000" float="true" pos="530,0,570,40" />
+      <Label name="pushpin_control" bkimage="res/pushpin.png" float="true" pos="250,0,300,50" />
+      <Button name="close_panel" float="true" pos="530,0,580,50" bkimage="res/close_1.png" pushedimage="res/close.png" />
     </VerticalLayout>
-    <VerticalLayout name="sysn_panel" userdata="420,260,300" float="true" pos="100,300,520,560" visible="false" inset="0,20,20,0">
-      <VerticalLayout bkcolor="#88555555" borderround="4,4" inset="20,20,20,10" childpadding="2">
+    <VerticalLayout name="sysn_panel" userdata="420,260,300" float="true" pos="100,300,530,580" visible="false" inset="0,25,25,0">
+      <VerticalLayout bkcolor="#88555555" borderround="4,4" inset="25,25,25,15" childpadding="2">
         <HorizontalLayout height="27">
           <Label text="年级：" width="65" textcolor="#ff555555" textpadding="8,0,0,0" bkcolor="#ffbbbbbb" borderround="4,4" />
           <Control width="5" />
@@ -75,13 +75,13 @@
         </HorizontalLayout>
         <Control height="5" />
         <HorizontalLayout height="30">
-          <Button name="sync_ok" text="确定" font="1" />
+          <Button name="sync_ok" text="确定" font="1" bkcolor="#88558855" borderround="4,4" />
           <Control width="15" />
-          <Button name="sync_cancel" text="取消" font="1" />
+          <Button name="sync_cancel" text="取消" font="1" bkcolor="#88558855" borderround="4,4" />
         </HorizontalLayout>
       </VerticalLayout>
-      <Label name="pushpin_sysn" bkimage="res/pushpin.png" float="true" pos="180,0,220,40" />
-      <Button name="close_panel" bkcolor="#55ff0000" float="true" pos="380,0,420,40" />
+      <Label name="pushpin_sysn" bkimage="res/pushpin.png" float="true" pos="175,0,225,50" />
+      <Button name="close_panel" float="true" pos="380,0,430,50" bkimage="res/close_1.png" pushedimage="res/close.png" />
     </VerticalLayout>
     <HorizontalLayout width="100" height="50" borderround="40,20" bkcolor="#88555555" float="true" pos="10,10,110,60">
       <Option name="record_status" width="50" height="50" bkcolor="#55504080" normalimage="res/stop.png" disabledimage="res/begin.png" selectedimage="res/pause.png" mouse="false" />

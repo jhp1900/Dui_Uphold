@@ -29,6 +29,12 @@ LRESULT BackWnd::OnResetIPInfoMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL 
 	return LRESULT();
 }
 
+LRESULT BackWnd::OnDPISetMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandle)
+{
+	m_pm.SetDPI((int)wParam);
+	return LRESULT();
+}
+
 void BackWnd::RunBackVideo()
 {
 	char url[MAX_PATH] = { 0 };

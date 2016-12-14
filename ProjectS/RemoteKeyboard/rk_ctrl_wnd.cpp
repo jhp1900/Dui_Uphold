@@ -3,7 +3,6 @@
 #include "RemoteKeyBoardCtrl/RemoteKeyBoardCtrl_c.c"
 #include "res_singleton.h"
 #include "ip_set_wnd.h"
-#include "dpiset_wnd.h"
 
 #pragma comment(lib,"Rpcrt4.lib")
 
@@ -259,11 +258,6 @@ LRESULT RKCtrlWnd::OnPopMenuClickMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BO
 			ipset_wnd.DoModal();
 			break;
 		}
-		case DPISet: {
-			DPISetWnd dpiset_wnd(m_hWnd);
-			dpiset_wnd.DoModal();
-			break;
-		}
 
 		default:
 			break;
@@ -313,13 +307,6 @@ LRESULT RKCtrlWnd::OnStatusShowkMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOO
 	return LRESULT();
 }
 
-LRESULT RKCtrlWnd::OnDPISetMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandle)
-{
-	m_pm.SetDPI((int)wParam);
-	ctrl_initpos_thread_ = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&RKCtrlWnd::ResetKeyPos, this)));
-	return LRESULT();
-}
-
 void RKCtrlWnd::OnClick(TNotifyUI & msg, bool & handled)
 {
 	int key = _tstoi(msg.pSender->GetUserData());
@@ -348,6 +335,46 @@ void RKCtrlWnd::OnClickSetupBtn(TNotifyUI & msg, bool & handled)
 void RKCtrlWnd::OnClickClosePanelBtn(TNotifyUI & msg, bool & handled)
 {
 	SetPanelVisible(msg.pSender->GetParent()->GetName(), false);
+}
+
+void RKCtrlWnd::OnClickSyncBtn(TNotifyUI & msg, bool & handled)
+{
+	auto const &items = g_LessionMappingTable;
+	DuiLib::CControlUI *ctrl;
+
+	if (msg.pSender->GetName() == _T("sync_ok")) {
+		pugi::xml_document xmldoc;
+		pugi::xml_node root = xmldoc.append_child(PUGIXML_TEXT("lesson"));
+
+		for (int i = 0; i < _countof(items); ++i) {
+			pugi::xml_attribute attr = root.append_attribute(items[i].attr);
+			if (ctrl = m_pm.FindControl(items[i].name))
+				attr = ctrl->GetText();
+		}
+		std::wostringstream oss;
+		root.print(oss, L"", pugi::format_raw);
+
+		auto _ExecuteExtendCmdWrap = [this](const std::wstring &buf) -> boolean {
+			boolean ret = false;
+			RpcTryExcept
+				ret = rkbc_ExecuteExtendCmd(binding_hwnd_, kExtendType_LessionInfo, reinterpret_cast<const byte *>(buf.data()), (buf.size() + 1) * sizeof(wchar_t));
+			RpcExcept(1)
+				ret = false;
+			RpcEndExcept
+
+				return ret;
+		};
+
+		if (_ExecuteExtendCmdWrap(oss.str())) {
+			m_lession_info = oss.str();
+
+			boost::crc_32_type result;
+			result.process_bytes(reinterpret_cast<const byte *>(m_lession_info.data()), (m_lession_info.size() + 1) * sizeof(wchar_t));
+			m_lession_info_checksum = result.checksum();
+		}
+	}
+
+	SetPanelVisible(_T("sysn_panel"), false);
 }
 
 bool RKCtrlWnd::EnableControl(LPCTSTR name, bool enable)

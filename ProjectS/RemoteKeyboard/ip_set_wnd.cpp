@@ -22,11 +22,11 @@ bool IpSetWnd::DoModal()
 
 void IpSetWnd::InitWindow()
 {
-	SetWindowLong(m_hWnd, GWL_EXSTYLE, GetWindowLong(m_hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
-	// 设置透明色  		
-	COLORREF cr_key = RGB(0, 0, 0);
-	SetLayeredWindowAttributes(m_hWnd, cr_key, 0, LWA_COLORKEY);
-	SetLayeredWindowAttributes(m_hWnd, 0, 200, LWA_ALPHA);
+	//SetWindowLong(m_hWnd, GWL_EXSTYLE, GetWindowLong(m_hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
+	//// 设置透明色  		
+	//COLORREF cr_key = RGB(0, 0, 0);
+	//SetLayeredWindowAttributes(m_hWnd, cr_key, 0, LWA_COLORKEY);
+	//SetLayeredWindowAttributes(m_hWnd, 0, 200, LWA_ALPHA);
 }
 
 void IpSetWnd::OnLocalInit()

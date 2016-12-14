@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Window size="325,325" caption="0,0,0,325">
+<Window bktrans="true" size="325,325" caption="0,0,0,325">
   <Font id="1" name="微软雅黑" size="24" bold="true" italic="false" default="true" />
   <VerticalLayout inset="0,25,25,0">
-    <VerticalLayout bkcolor="#ffffffff" borderround="10,10">
+    <VerticalLayout bkcolor="#88555555" borderround="10,10">
       <Control />
       <HorizontalLayout height="56">
         <Control />
@@ -36,6 +36,6 @@
       </HorizontalLayout>
       <Control />
     </VerticalLayout>
-    <Button name="close_ptz" width="50" float="true" pos="275,0,325,50" bkimage="res/close_panel_1.png" hotimage="res/close_panel_2.png" />
+    <Button name="close_ptz" width="50" float="true" pos="275,0,325,50" bkimage="res/close_1.png" pushedimage="res/close.png" />
   </VerticalLayout>
 </Window>

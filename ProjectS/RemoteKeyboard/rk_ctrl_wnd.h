@@ -26,12 +26,13 @@ public:
 		DUIMSG_HANDLER(kAM_PTZ, OnPtzClickMsg)
 		DUIMSG_HANDLER(kAM_RecordStatusMsg, OnStatusShowkMsg)
 		DUIMSG_HANDLER(kAM_DirectorStatusMsg, OnStatusShowkMsg)
-		DUIMSG_HANDLER(kAM_DPISetMsg, OnDPISetMsg)
 	END_DUIMSG_MAP()
 
 	BEGIN_DUINOTIFY_MAP(RKCtrlWnd)
 		DUINOTIFY_HANDLER(_T("setupbtn"), DUI_MSGTYPE_CLICK, OnClickSetupBtn)
 		DUINOTIFY_HANDLER(_T("close_panel"), DUI_MSGTYPE_CLICK, OnClickClosePanelBtn)
+		DUINOTIFY_HANDLER(_T("sync_ok"), DUI_MSGTYPE_CLICK, OnClickSyncBtn)
+		DUINOTIFY_HANDLER(_T("sync_cancel"), DUI_MSGTYPE_CLICK, OnClickSyncBtn)
 		DUINOTIFY_TYPE_HANDLER(DUI_MSGTYPE_CLICK, OnClick)
 	END_DUINOTIFY_MAP()
 
@@ -52,11 +53,11 @@ private:
 	LRESULT OnResetIPInfoMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
 	LRESULT OnPtzClickMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandle);
 	LRESULT OnStatusShowkMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandle);
-	LRESULT OnDPISetMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandle);
 
 	void OnClick(TNotifyUI& msg, bool& handled);
 	void OnClickSetupBtn(TNotifyUI& msg, bool& handled);
 	void OnClickClosePanelBtn(TNotifyUI& msg, bool& handled);
+	void OnClickSyncBtn(TNotifyUI& msg, bool& handled);
 
 private:
 	bool EnableControl(LPCTSTR name, bool enable);
