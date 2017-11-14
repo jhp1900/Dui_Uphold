@@ -1,5 +1,6 @@
 #include "back_wnd.h"
 #include "res_singleton.h"
+#include "resource.h"
 
 BackWnd::BackWnd()
 {
@@ -19,12 +20,14 @@ LRESULT BackWnd::OnInitOtherWndMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL
 {
 	rk_ctrl_wnd_.reset(new RKCtrlWnd(m_hWnd));
 	rk_ctrl_wnd_->Init();
+  SetIcon(IDR_MAINFRAME);
 	return LRESULT();
 }
 
 LRESULT BackWnd::OnResetIPInfoMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
 {
-	vlc_tool_->Destory();
+  if(vlc_tool_)
+	  vlc_tool_->Destory();
 	RunBackVideo();
 	return LRESULT();
 }
@@ -38,11 +41,11 @@ LRESULT BackWnd::OnDPISetMsg(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHa
 void BackWnd::RunBackVideo()
 {
 	char url[MAX_PATH] = { 0 };
-	CDuiString str_url = _T("rtsp://");
-	CDuiString ip, port;
 	SysCfg *sys_cfg = ResSingleton::GetInstance()->GetSysCfg();
-	sys_cfg->GetIpInfo(BackStreamsIP, ip, port);
-	sys_cfg->WideToMulti(str_url + ip + _T("/") + port, url);
+  CDuiString str_url = sys_cfg->GetBkUrl();
+  if (str_url.IsEmpty())
+    return;
+	sys_cfg->WideToMulti(str_url, url);
 
 	vlc_tool_.reset(new VLCTool);
 	if (!vlc_tool_->Initial())

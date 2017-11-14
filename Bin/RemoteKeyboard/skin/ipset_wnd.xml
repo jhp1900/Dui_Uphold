@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Window bktrans="true" size="300,205" caption="0,0,0,205">
+<Window bktrans="true" size="450,205" caption="0,0,0,205">
   <Font id="0" name="微软雅黑" size="18" bold="false" italic="false" default="true" />
   <VerticalLayout inset="0,25,25,0">
     <VerticalLayout bkcolor="#88555555" inset="25,0,25,0" borderround="10,10">
       <Control />
-      <HorizontalLayout height="35">
-        <Label width="50" text="IP:" />
-        <Edit name="ip_edit" align="center" bkcolor="#ff888888" />
-      </HorizontalLayout>
-      <Control height="5" />
-      <HorizontalLayout height="35">
-        <Label width="50" text="Port:" />
-        <Edit name="port_edit" align="center" bkcolor="#ff888888" />
-      </HorizontalLayout>
+      <VerticalLayout name="ip_set_area" height="75" visible="false">
+        <HorizontalLayout height="35">
+          <Label width="50" text="IP:" />
+          <Edit name="ip_edit" align="center" bkcolor="#ff888888" />
+        </HorizontalLayout>
+        <Control height="5" />
+        <HorizontalLayout height="35">
+          <Label width="50" text="Port:" />
+          <Edit name="port_edit" align="center" bkcolor="#ff888888" />
+        </HorizontalLayout>
+      </VerticalLayout>
+      <VerticalLayout name="bk_url_area" height="75" visible="false">
+        <Control />
+        <HorizontalLayout height="35">
+          <Label width="50" text="URL:" />
+          <Edit name="bk_url" align="center" bkcolor="#ff888888" />
+        </HorizontalLayout>
+        <Control />
+      </VerticalLayout>
       <Control height="15" />
       <HorizontalLayout height="40">
         <Button name="ok" width="80" text="确定" bkcolor="#ff555555" />
@@ -21,6 +31,6 @@
       </HorizontalLayout>
       <Control />
     </VerticalLayout>
-    <Button name="close_ptz" width="50" float="true" pos="250,0,300,50" bkimage="res/close_1.png" pushedimage="res/close.png" />
+    <Button name="close_ptz" width="50" float="true" pos="400,0,450,50" bkimage="res/close_1.png" pushedimage="res/close.png" />
   </VerticalLayout>
 </Window>

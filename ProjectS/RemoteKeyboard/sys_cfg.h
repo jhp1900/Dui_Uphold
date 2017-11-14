@@ -30,6 +30,9 @@ public:
 	RECT GetChBtnPos(LPCTSTR name, int index, HWND hwnd);
 	bool SetChBtnPos(LPCTSTR name, RECT pos);
 
+  bool SetBkUrl(const CDuiString & url);
+  CDuiString GetBkUrl();
+
 private:
 	bool SaveFile(const WCHAR * path = nullptr);
 

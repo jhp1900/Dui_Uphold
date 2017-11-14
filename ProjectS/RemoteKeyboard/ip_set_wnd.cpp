@@ -31,20 +31,32 @@ void IpSetWnd::InitWindow()
 
 void IpSetWnd::OnLocalInit()
 {
-	CDuiString ip, port;
-	SysCfg *sys_cfg = ResSingleton::GetInstance()->GetSysCfg();
-	sys_cfg->GetIpInfo(ip_source_type_, ip, port);
-	m_pm.FindControl(_T("ip_edit"))->SetText(ip);
-	m_pm.FindControl(_T("port_edit"))->SetText(port);
+  SysCfg *sys_cfg = ResSingleton::GetInstance()->GetSysCfg();
+
+  if (ip_source_type_ == ServerIP) {
+    m_pm.FindControl(L"ip_set_area")->SetVisible(true);
+    CDuiString ip, port;
+    sys_cfg->GetIpInfo(ip_source_type_, ip, port);
+    m_pm.FindControl(_T("ip_edit"))->SetText(ip);
+    m_pm.FindControl(_T("port_edit"))->SetText(port);
+  }
+  else if (ip_source_type_ == BackStreamsIP) {
+    m_pm.FindControl(L"bk_url_area")->SetVisible(true);
+    m_pm.FindControl(L"bk_url")->SetText(sys_cfg->GetBkUrl());
+  }
 }
 
 void IpSetWnd::OnClickBtn(TNotifyUI & msg, bool & handled)
 {
 	if (msg.pSender->GetName() == _T("ok")) {
-		WPARAM ip = (WPARAM)m_pm.FindControl(_T("ip_edit"))->GetText().GetData();
-		LPARAM port = (LPARAM)m_pm.FindControl(_T("port_edit"))->GetText().GetData();
-		ResSingleton::GetInstance()->GetSysCfg()->SetIpInfo(ip_source_type_, (LPCTSTR)ip, (LPCTSTR)port);
-
+    if (ip_source_type_ == ServerIP) {
+      WPARAM ip = (WPARAM)m_pm.FindControl(_T("ip_edit"))->GetText().GetData();
+      LPARAM port = (LPARAM)m_pm.FindControl(_T("port_edit"))->GetText().GetData();
+      ResSingleton::GetInstance()->GetSysCfg()->SetIpInfo(ip_source_type_, (LPCTSTR)ip, (LPCTSTR)port);
+    }
+    else if (ip_source_type_ == BackStreamsIP) {
+      ResSingleton::GetInstance()->GetSysCfg()->SetBkUrl(m_pm.FindControl(_T("bk_url"))->GetText());
+    }
 		::PostMessage(pa_hwnd_, kAM_ResetIPInfo, ip_source_type_, 0);
 	}
 

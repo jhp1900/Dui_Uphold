@@ -175,6 +175,7 @@
     <ClInclude Include="ip_set_wnd.h" />
     <ClInclude Include="msg_head.h" />
     <ClInclude Include="ptz_wnd.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="res_singleton.h" />
     <ClInclude Include="rk_ctrl_wnd.h" />
     <ClInclude Include="menu_wnd.h" />
@@ -195,6 +196,13 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="sys_cfg.cpp" />
     <ClCompile Include="vlc_tool.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="RemoteKeyboard.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\128.ico" />
+    <Image Include="res\48.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

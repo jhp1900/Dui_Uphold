@@ -147,6 +147,29 @@ bool SysCfg::SetChBtnPos(LPCTSTR name, RECT pos)
 	return SaveFile();
 }
 
+bool SysCfg::SetBkUrl(const CDuiString & url)
+{
+  pugi::xml_node node = GetNode(L"BkURL");
+  pugi::xml_attribute attr = node.attribute(L"url");
+  if (!attr)
+    attr = node.append_attribute(L"url");
+  attr = url;
+  return SaveFile();
+}
+
+CDuiString SysCfg::GetBkUrl()
+{
+  pugi::xml_node node = GetNode(L"BkURL");
+  pugi::xml_attribute attr = node.attribute(L"url");
+  if (!attr) {
+    attr = node.append_attribute(L"url");
+    attr = L"";
+    SaveFile();
+  }
+
+  return attr.as_string();
+}
+
 bool SysCfg::SaveFile(const WCHAR * path /* = nullptr */)
 {
 	if (path)
